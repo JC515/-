@@ -12,10 +12,10 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12" class="button-col">
-          <el-button @click="prevWord" type="primary" icon="el-icon-arrow-left">上一个</el-button>
+          <el-button @click="prevWord" type="primary">上一个</el-button>
         </el-col>
         <el-col :span="12" class="button-col">
-          <el-button @click="nextWord" type="primary" icon="el-icon-arrow-right">下一个</el-button>
+          <el-button @click="nextWord" type="primary">下一个</el-button>
         </el-col>
       </el-row>
       <el-row :gutter="20">
@@ -40,16 +40,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  //background-image: url('path-to-your-background-image.jpg'); /* Set your background image */
   background-size: cover;
   background-position: center;
   backdrop-filter: blur(10px);
 }
 
 .word-card {
-  max-width: 600px; /* Set your desired maximum width */
-  width: 80%; /* Adjust as needed */
-  background: rgba(255, 255, 255, 0.8); /* Adjust the opacity as needed */
+  max-width: 600px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 20px;
   margin: 20px;
@@ -62,14 +61,14 @@
 
 .word {
   font-size: 2em;
-  font-family: 'Your Artistic Font', sans-serif; /* Specify your artistic font */
+  font-family: 'Your Artistic Font', sans-serif;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .pronunciation {
   font-size: 1.5em;
-  font-family: 'Your Artistic Font', sans-serif; /* Specify your artistic font */
+  font-family: 'Your Artistic Font', sans-serif;
   margin-bottom: 5px;
 }
 
@@ -89,12 +88,8 @@
 }
 </style>
 
-
-
-
-
 <script>
-import {defineComponent, ref, onMounted} from 'vue';
+import {defineComponent, ref, onMounted, onBeforeUnmount} from 'vue';
 import axios from 'axios';
 
 export default defineComponent({
@@ -153,6 +148,32 @@ export default defineComponent({
       }
       updateCurrentWord();
     };
+
+    const handleKeyDown = (event) => {
+      switch (event.key) {
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+          prevWord();
+          break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+          nextWord();
+          break;
+        default:
+          break;
+      }
+    };
+
+
+    onMounted(() => {
+      window.addEventListener('keydown', handleKeyDown);
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('keydown', handleKeyDown);
+    });
 
     return {
       wordsLoaded,

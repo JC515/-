@@ -6,19 +6,49 @@
       </el-header>
       <el-container class="full-height">
         <el-aside width="200px" style="background-color: #a0cfff">
-          <Menu></Menu>
+          <Menu @menuSelect="handleMenuSelect"></Menu>
         </el-aside>
         <el-main style="background-color: #d9ecff">
-          <Word></Word>
+          <div id="page1" v-if="index === 1">
+            <p>个人中心</p>
+          </div>
+          <div id="page2" v-else-if="index === 2">
+            <WordLearn></WordLearn>
+          </div>
+          <div id="page3" v-else-if="index === 3">
+            <p>词汇测验</p>
+          </div>
+          <div id="page4" v-else-if="index === 4">
+            <p>设置</p>
+          </div>
         </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
-<script setup>
+<script>
 import Menu from "@/components/SideMenu.vue";
-import Word from "@/components/WordLearn.vue";
+import WordLearn from "@/components/WordLearn.vue";
+
+export default {
+  components: {
+    Menu,
+    WordLearn,
+  },
+  data() {
+    return {
+      index: 2,
+    };
+  },
+  methods: {
+    handleMenuSelect(index) {
+      index = parseInt(index, 10); // or use +index;
+      console.log("接受界面切换请求", index);
+      this.index = index;
+    },
+  },
+};
 </script>
 
 <style>

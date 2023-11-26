@@ -5,8 +5,7 @@
       class="el-menu-vertical-demo"
       default-active="2"
       text-color="#000000"
-      @open="handleOpen"
-      @close="handleClose"
+      @select="handleMenuSelect"
   >
     <el-menu-item index="1">
       <el-icon>
@@ -40,18 +39,16 @@
 </template>
 
 <script lang="ts" setup>
+import {Setting, HomeFilled, Reading, Check} from '@element-plus/icons-vue'
+</script>
 
-import {
-  Setting,
-  HomeFilled,
-  Reading,
-  Check
-} from '@element-plus/icons-vue'
-
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+<script lang="ts">
+export default {
+  methods: {
+    handleMenuSelect(index) {
+      this.$emit('menuSelect', index)
+      console.log("发送界面切换请求", index)
+    },
+  },
 }
 </script>
