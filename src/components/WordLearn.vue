@@ -89,99 +89,88 @@
 </style>
 
 <script>
-import {defineComponent, ref, onMounted, onBeforeUnmount} from 'vue';
 import axios from 'axios';
 
-export default defineComponent({
-  setup() {
-    const words = ref([]);
-    const wordsLoaded = ref(false);
-    const currentIndex = ref(0);
-    const isOutOfOrder = ref(false);
+export default {
+  data() {
+    return {
+      words: [],
+      wordsLoaded: false,
+      currentIndex: 0,
+      isOutOfOrder: false,
+      currentWord: {
+        word: '',
+        pronunciation: '',
+        definition: '',
+      },
+    };
+  },
+  mounted() {
+    this.fetchWords();
+    this.updateCurrentWord();
 
-    onMounted(async () => {
+    window.addEventListener('keydown', this.handleKeyDown);
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  },
+  methods: {
+    async fetchWords() {
       try {
         const response = await axios.get('http://localhost:8080/word');
-        words.value = response.data.data;
-        wordsLoaded.value = true;
-        updateCurrentWord();
+        this.words = response.data.data;
+        this.wordsLoaded = true;
+        this.updateCurrentWord();
       } catch (error) {
         console.error(error);
       }
-    });
-
-    const currentWord = ref({
-      word: '',
-      pronunciation: '',
-      definition: '',
-    });
-
-    const updateCurrentWord = () => {
-      if (words.value.length > 0) {
-        if (isOutOfOrder.value) {
-          currentIndex.value = Math.floor(Math.random() * words.value.length);
+    },
+    updateCurrentWord() {
+      if (this.words.length > 0) {
+        if (this.isOutOfOrder) {
+          this.currentIndex = Math.floor(Math.random() * this.words.length);
         }
-        currentWord.value = words.value[currentIndex.value];
+        this.currentWord = this.words[this.currentIndex];
       }
-    };
-
-    const nextWord = () => {
-      if (isOutOfOrder.value) {
-        currentIndex.value = Math.floor(Math.random() * words.value.length);
-      } else if (currentIndex.value < words.value.length - 1) {
-        currentIndex.value++;
+    },
+    nextWord() {
+      if (this.isOutOfOrder) {
+        this.currentIndex = Math.floor(Math.random() * this.words.length);
+      } else if (this.currentIndex < this.words.length - 1) {
+        this.currentIndex++;
       } else {
         alert('已经是最后一个单词了');
         return;
       }
-      updateCurrentWord();
-    };
-
-    const prevWord = () => {
-      if (isOutOfOrder.value) {
-        currentIndex.value = Math.floor(Math.random() * words.value.length);
-      } else if (currentIndex.value > 0) {
-        currentIndex.value--;
+      this.updateCurrentWord();
+    },
+    prevWord() {
+      if (this.isOutOfOrder) {
+        this.currentIndex = Math.floor(Math.random() * this.words.length);
+      } else if (this.currentIndex > 0) {
+        this.currentIndex--;
       } else {
         alert('已经是第一个单词了');
         return;
       }
-      updateCurrentWord();
-    };
-
-    const handleKeyDown = (event) => {
+      this.updateCurrentWord();
+    },
+    handleKeyDown(event) {
       switch (event.key) {
         case 'ArrowLeft':
         case 'a':
         case 'A':
-          prevWord();
+          this.prevWord();
           break;
         case 'ArrowRight':
         case 'd':
         case 'D':
-          nextWord();
+          this.nextWord();
           break;
         default:
           break;
       }
-    };
-
-
-    onMounted(() => {
-      window.addEventListener('keydown', handleKeyDown);
-    });
-
-    onBeforeUnmount(() => {
-      window.removeEventListener('keydown', handleKeyDown);
-    });
-
-    return {
-      wordsLoaded,
-      currentWord,
-      nextWord,
-      prevWord,
-      isOutOfOrder,
-    };
+    },
   },
-});
+};
 </script>
