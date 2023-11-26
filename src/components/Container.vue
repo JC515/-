@@ -1,8 +1,9 @@
 <template>
   <div class="common-layout">
     <el-container class="full-height">
-      <el-header height="100px" style="background-color: #79bbff">
+      <el-header height="100px" style="background-color: #79bbff; display: flex; justify-content: space-between; align-items: center;">
         <h1>词汇宇宙</h1>
+        <Saying></Saying>
       </el-header>
       <el-container class="full-height">
         <el-aside width="200px" style="background-color: #a0cfff">
@@ -10,7 +11,7 @@
         </el-aside>
         <el-main style="background-color: #d9ecff">
           <div id="page1" v-if="index === 1">
-            <p>个人中心</p>
+            <PersonalCenter></PersonalCenter>
           </div>
           <div id="page2" v-else-if="index === 2">
             <WordLearn></WordLearn>
@@ -21,6 +22,9 @@
           <div id="page4" v-else-if="index === 4">
             <p>设置</p>
           </div>
+          <div v-else>
+            <p>无效界面</p>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -30,11 +34,15 @@
 <script>
 import Menu from "@/components/SideMenu.vue";
 import WordLearn from "@/components/WordLearn.vue";
+import PersonalCenter from "@/components/PersonalCenter.vue";
+import Saying from "@/components/Saying.vue";
 
 export default {
   components: {
+    PersonalCenter,
     Menu,
     WordLearn,
+    Saying,
   },
   data() {
     return {
