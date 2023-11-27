@@ -21,7 +21,7 @@
             <p>词汇测验</p>
           </div>
           <div id="page4" v-else-if="index === 4">
-            <p>词库</p>
+            <WordTable></WordTable>
           </div>
           <div v-else>
             <p>无效界面</p>
@@ -37,9 +37,11 @@ import Menu from "@/components/SideMenu.vue";
 import WordLearn from "@/components/WordLearn.vue";
 import PersonalCenter from "@/components/PersonalCenter.vue";
 import Saying from "@/components/Saying.vue";
+import WordTable from "@/components/WordTable.vue";
 
 export default {
   components: {
+    WordTable,
     PersonalCenter,
     Menu,
     WordLearn,

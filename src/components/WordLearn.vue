@@ -7,6 +7,8 @@
             <p class="word">{{ currentWord.word }}</p>
             <p class="pronunciation">{{ currentWord.pronunciation }}</p>
             <p class="definition">{{ currentWord.definition }}</p>
+            <el-button class="play-button" icon="el-icon-caret-right" @click="playAudio" type="primary"
+                       circle></el-button>
           </div>
         </el-col>
       </el-row>
@@ -86,6 +88,12 @@
   text-align: center;
   margin-top: 20px;
 }
+
+.play-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 </style>
 
 <script>
@@ -103,6 +111,8 @@ export default {
         pronunciation: '',
         definition: '',
       },
+      audioType: 1,
+      audioPlayer: null,
     };
   },
   mounted() {
@@ -170,6 +180,24 @@ export default {
         default:
           break;
       }
+    },
+    playAudio() {
+      const word = this.currentWord.word;
+      const audioType = this.audioType;
+      const audioUrl = `http://dict.youdao.com/dictvoice?type=${audioType}&audio=${word}`;
+
+      if (!this.audioPlayer) {
+        this.audioPlayer = new Audio();
+      }
+
+      this.audioPlayer.src = audioUrl;
+      this.audioPlayer.play()
+          .then(() => {
+            console.log('音频播放已成功启动。');
+          })
+          .catch((error) => {
+            console.error('启动音频播放时出错：', error);
+          });
     },
   },
 };

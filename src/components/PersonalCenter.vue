@@ -67,6 +67,9 @@ export default {
         this.age = data.data.age;
         this.username = data.data.username;
         this.gender = data.data.gender;
+        console.log('获取到的用户信息：', data);
+        console.log('用户id：', this.id);
+        console.log('name', this.username);
       } catch (error) {
         console.error('Error fetching user information:', error);
       }
