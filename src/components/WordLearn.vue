@@ -7,8 +7,11 @@
             <p class="word">{{ currentWord.word }}</p>
             <p class="pronunciation">{{ currentWord.pronunciation }}</p>
             <p class="definition">{{ currentWord.definition }}</p>
-            <el-button class="play-button" icon="el-icon-caret-right" @click="playAudio" type="primary"
-                       circle></el-button>
+            <el-button class="play-button" @click="playAudio" circle>
+              <el-icon>
+                <VideoPlay/>
+              </el-icon>
+            </el-button>
           </div>
         </el-col>
       </el-row>
@@ -91,15 +94,18 @@
 
 .play-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 40px;
+  right: 120px;
 }
 </style>
 
 <script>
 import axios from 'axios';
+import {VideoPlay} from '@element-plus/icons-vue';
+
 
 export default {
+  components: {VideoPlay},
   data() {
     return {
       words: [],
@@ -184,7 +190,7 @@ export default {
     playAudio() {
       const word = this.currentWord.word;
       const audioType = this.audioType;
-      const audioUrl = `http://dict.youdao.com/dictvoice?type=${audioType}&audio=${word}`;
+      const audioUrl = `https://dict.youdao.com/dictvoice?type=${audioType}&audio=${word}`;
 
       if (!this.audioPlayer) {
         this.audioPlayer = new Audio();
