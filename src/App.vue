@@ -1,11 +1,11 @@
 <template>
   <div>
-    <!--    <div v-if="!isLogIn">-->
-    <div v-if="false">
+    <div v-if="!isLogIn">
+      <!--    <div v-if="false">-->
       <LogIn @Successfully_logged_in="handleLoginSuccess"></LogIn>
     </div>
     <div v-else>
-      <Container></Container>
+      <Container :userId="nowUserId"></Container>
     </div>
   </div>
 </template>
@@ -23,11 +23,13 @@ export default {
   data() {
     return {
       isLogIn: false,
+      nowUserId: ''
     };
   },
   methods: {
-    handleLoginSuccess() {
+    handleLoginSuccess(id) {
       this.isLogIn = true;
+      this.nowUserId = id;
     },
   },
   watch: {

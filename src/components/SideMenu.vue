@@ -31,15 +31,17 @@
     </el-menu-item>
     <el-menu-item index="4">
       <el-icon>
-        <setting/>
+        <el-icon>
+          <Check/>
+        </el-icon>
       </el-icon>
-      <span>设置</span>
+      <span>词库</span>
     </el-menu-item>
   </el-menu>
 </template>
 
 <script lang="ts" setup>
-import {Setting, HomeFilled, Reading, Check} from '@element-plus/icons-vue'
+import {HomeFilled, Reading, Check} from '@element-plus/icons-vue'
 </script>
 
 <script lang="ts">
@@ -47,7 +49,6 @@ export default {
   methods: {
     handleMenuSelect(index) {
       this.$emit('menuSelect', index)
-      console.log("发送界面切换请求", index)
     },
   },
 }

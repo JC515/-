@@ -1,7 +1,8 @@
 <template>
   <div class="common-layout">
     <el-container class="full-height">
-      <el-header height="100px" style="background-color: #79bbff; display: flex; justify-content: space-between; align-items: center;">
+      <el-header height="100px"
+                 style="background-color: #79bbff; display: flex; justify-content: space-between; align-items: center;">
         <h1>词汇宇宙</h1>
         <Saying></Saying>
       </el-header>
@@ -11,7 +12,7 @@
         </el-aside>
         <el-main style="background-color: #d9ecff">
           <div id="page1" v-if="index === 1">
-            <PersonalCenter></PersonalCenter>
+            <PersonalCenter :nowUserId="userId"></PersonalCenter>
           </div>
           <div id="page2" v-else-if="index === 2">
             <WordLearn></WordLearn>
@@ -20,7 +21,7 @@
             <p>词汇测验</p>
           </div>
           <div id="page4" v-else-if="index === 4">
-            <p>设置</p>
+            <p>词库</p>
           </div>
           <div v-else>
             <p>无效界面</p>
@@ -44,6 +45,12 @@ export default {
     WordLearn,
     Saying,
   },
+  props: {
+    userId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       index: 2,
@@ -52,7 +59,6 @@ export default {
   methods: {
     handleMenuSelect(index) {
       index = parseInt(index, 10); // or use +index;
-      console.log("接受界面切换请求", index);
       this.index = index;
     },
   },

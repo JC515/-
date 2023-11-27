@@ -5,10 +5,17 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <div class="personal-info">
-              <p class="info-label">用户名:</p>
-              <p class="info-value">{{ userInfo.username }}</p>
-              <p class="info-label">邮箱:</p>
-              <p class="info-value">{{ userInfo.email }}</p>
+              <p class="info-label">账号: {{ id }}</p>
+              <el-divider />
+              <p class="info-label">用户名: {{ username }}</p>
+              <el-divider />
+              <p class="info-label">邮箱: {{ email }}</p>
+              <el-divider />
+              <p class="info-label">年龄: {{ age }}</p>
+              <el-divider />
+              <p class="info-label">性别: {{ getGenderLabel(gender) }}</p>
+              <el-divider />
+              <p class="info-label">注册时间: {{ formatDate(created) }}</p>
             </div>
           </el-col>
         </el-row>
@@ -16,6 +23,72 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    nowUserId: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      id: '',
+      created: '',
+      email: '',
+      age: '',
+      username: '',
+      gender: '',
+    };
+  },
+  created() {
+    console.log('当前用户id为：', this.nowUserId)
+    this.getUserInfo();
+  },
+  methods: {
+    async getUserInfo() {
+      try {
+        const response = await fetch('http://localhost:8080/user/get?id=' + this.nowUserId, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          console.error('Error fetching user information:', response);
+        }
+
+        const data = await response.json();
+        this.id = data.data.id;
+        this.created = data.data.created;
+        this.email = data.data.email;
+        this.age = data.data.age;
+        this.username = data.data.username;
+        this.gender = data.data.gender;
+      } catch (error) {
+        console.error('Error fetching user information:', error);
+      }
+    },
+    formatDate(date) {
+      const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour12: false, // Use 24-hour format
+        timeZone: 'Asia/Shanghai', // Set to the Chinese time zone
+      };
+
+      return new Date(date).toLocaleDateString('zh-CN', options);
+    },
+
+    getGenderLabel(gender) {
+      return gender === 1 ? '男生' : (gender === 2 ? '女生' : '未知');
+    },
+  },
+};
+</script>
 
 <style scoped>
 .word-container {
@@ -26,19 +99,19 @@
 }
 
 .personal-info-card-container {
-  width: 75%; /* Adjusted width for 4:3 aspect ratio */
-  max-width: 800px; /* Maximum width */
+  width: 90%;
+  max-width: 800px;
   display: flex;
   justify-content: center;
 }
 
 .personal-info-card {
-  width: 100%; /* Full width */
-  height: 600px; /* Adjusted height for 4:3 aspect ratio */
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 600px;
+  background: #f5f5f5;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .personal-info {
@@ -47,27 +120,9 @@
 
 .info-label {
   font-size: 1.2em;
-  margin-bottom: 5px;
-}
-
-.info-value {
-  font-size: 1.5em;
-  font-family: 'Your Artistic Font', sans-serif;
-  font-weight: bold;
   margin-bottom: 10px;
+  text-align: left;
+  color: #333;
+  font-weight: bold;
 }
 </style>
-
-<script>
-export default {
-  data() {
-    return {
-      // ... existing data ...
-      userInfo: {
-        username: 'YourUsername',
-        email: 'your.email@example.com',
-      },
-    };
-  },
-};
-</script>

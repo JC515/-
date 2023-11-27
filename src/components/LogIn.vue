@@ -38,11 +38,18 @@ export default {
         alert('账号或密码不能为空');
         return;
       }
-      axios.post('http://localhost:8080/login', {id: this.id, password: this.password})
+
+      // 将this.id和this.password转换为字符串
+      const requestData = {
+        id: String(this.id),
+        password: String(this.password)
+      };
+
+      axios.post('http://localhost:8080/user/login', requestData)
           .then(response => {
             if (response.data.data === 'success') {
               console.log('success');
-              this.$emit('Successfully_logged_in', 'success');
+              this.$emit('Successfully_logged_in', this.id);
             } else {
               console.log('fail');
             }
