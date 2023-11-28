@@ -15,7 +15,7 @@
             <PersonalCenter :nowUserId="userId"></PersonalCenter>
           </div>
           <div id="page2" v-else-if="index === 2">
-            <WordLearn></WordLearn>
+            <WordLearn :nowUserId="userId"></WordLearn>
           </div>
           <div id="page3" v-else-if="index === 3">
             <p>词汇测验</p>
@@ -62,6 +62,10 @@ export default {
     handleMenuSelect(index) {
       index = parseInt(index, 10); // or use +index;
       this.index = index;
+    },
+  },
+  watch: {
+    index() {
     },
   },
 };

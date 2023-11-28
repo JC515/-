@@ -106,6 +106,12 @@ import {VideoPlay} from '@element-plus/icons-vue';
 
 export default {
   components: {VideoPlay},
+  props: {
+    nowUserId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       words: [],
@@ -123,12 +129,15 @@ export default {
   },
   mounted() {
     this.fetchWords();
+    this.getWordHistory();
     this.updateCurrentWord();
-
     window.addEventListener('keydown', this.handleKeyDown);
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
+  },
+  beforeDestroy() {
+    this.updateWordHistory();
   },
   methods: {
     async fetchWords() {
@@ -137,6 +146,33 @@ export default {
         this.words = response.data.data;
         this.wordsLoaded = true;
         this.updateCurrentWord();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getWordHistory() {
+      try {
+        const response = await axios.get('http://localhost:8080/word/history?id=' + this.nowUserId);
+        if (response.data.code === 1) {
+          this.currentIndex = response.data.data.wordId;
+        } else {
+          console.log(response.data.message)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async updateWordHistory() {
+      try {
+        const response = await axios.post('http://localhost:8080/word/history', {
+          userId: this.nowUserId,
+          wordId: this.currentIndex,
+        });
+        if (response.data.code === 1) {
+          console.log(response.data.message)
+        } else {
+          console.log(response.data.message)
+        }
       } catch (error) {
         console.error(error);
       }
