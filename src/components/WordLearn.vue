@@ -102,6 +102,7 @@
 <script>
 import axios from 'axios';
 import {VideoPlay} from '@element-plus/icons-vue';
+import bus from "@/Util/EventBus";
 
 
 export default {
@@ -111,8 +112,10 @@ export default {
       type: String,
       required: true,
     },
+
   },
   data() {
+    let index;
     return {
       words: [],
       wordsLoaded: false,
@@ -125,7 +128,15 @@ export default {
       },
       audioType: 1,
       audioPlayer: null,
+      index,
     };
+  },
+  created() {
+    bus.on('indexChange', (index) => {
+      if (this.index === index)
+        return;
+      this.updateWordHistory();
+    })
   },
   mounted() {
     this.fetchWords();
@@ -169,13 +180,13 @@ export default {
           wordId: this.currentIndex,
         });
         if (response.data.code === 1) {
-          console.log(response.data.message)
         } else {
           console.log(response.data.message)
         }
       } catch (error) {
         console.error(error);
       }
+      await this.getWordHistory();
     },
     updateCurrentWord() {
       if (this.words.length > 0) {

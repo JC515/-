@@ -32,7 +32,7 @@
     <el-menu-item index="4">
       <el-icon>
         <el-icon>
-          <Check/>
+          <Star/>
         </el-icon>
       </el-icon>
       <span>词库</span>
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import {HomeFilled, Reading, Check} from '@element-plus/icons-vue'
+import {HomeFilled, Reading, Check, Star} from '@element-plus/icons-vue'
 </script>
 
 <script lang="ts">

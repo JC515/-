@@ -87,7 +87,7 @@ export default {
     },
 
     getGenderLabel(gender) {
-      return gender === 1 ? '男生' : (gender === 2 ? '女生' : '未知');
+      return gender === 1 ? '男' : (gender === 2 ? '女' : '未知');
     },
   },
 };
@@ -111,7 +111,7 @@ export default {
 .personal-info-card {
   width: 100%;
   height: 600px;
-  background: #f5f5f5;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
   padding: 30px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);

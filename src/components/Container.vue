@@ -18,7 +18,7 @@
             <WordLearn :nowUserId="userId"></WordLearn>
           </div>
           <div id="page3" v-else-if="index === 3">
-            <p>词汇测验</p>
+            <Quiz></Quiz>
           </div>
           <div id="page4" v-else-if="index === 4">
             <WordTable></WordTable>
@@ -38,6 +38,8 @@ import WordLearn from "@/components/WordLearn.vue";
 import PersonalCenter from "@/components/PersonalCenter.vue";
 import Saying from "@/components/Saying.vue";
 import WordTable from "@/components/WordTable.vue";
+import bus from "@/Util/EventBus";
+import Quiz from "@/components/Quiz.vue";
 
 export default {
   components: {
@@ -46,6 +48,7 @@ export default {
     Menu,
     WordLearn,
     Saying,
+    Quiz,
   },
   props: {
     userId: {
@@ -66,6 +69,7 @@ export default {
   },
   watch: {
     index() {
+      bus.emit("indexChange", this.index)
     },
   },
 };

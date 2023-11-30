@@ -4,7 +4,7 @@
       <span>账号：</span>
       <span>
         <el-input v-model="id" placeholder="请输入账号" clearable size="large" maxlength="20" show-word-limit
-                  style="width: 20% ;height: 50px"/>
+                  style="width: 20% ;height: 50px" ref="idInput"/>
       </span>
     </div>
     <br>
@@ -12,7 +12,7 @@
       <span>密码：</span>
       <span>
         <el-input v-model="password" type="password" placeholder="请输入密码" show-password clearable size="large"
-                  maxlength="30" style="width: 20% ;height: 50px"/>
+                  maxlength="30" style="width: 20% ;height: 50px" ref="passwordInput"/>
       </span>
     </div>
     <br>
@@ -49,8 +49,11 @@ export default {
           .then(response => {
             if (response.data.data === 'success') {
               console.log('success');
-              this.$emit('Successfully_logged_in', this.id);
+              this.$emit('SuccessfulLogIn', this.id);
             } else {
+              alert('账号或密码错误')
+              this.$refs.idInput.clear();
+              this.$refs.passwordInput.clear();
               console.log('fail');
             }
           })
