@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <div>
+      <h1>词汇宇宙登录</h1>
+    </div>
+    <div>
       <span>账号：</span>
       <span>
         <el-input v-model="id" placeholder="请输入账号" clearable size="large" maxlength="20" show-word-limit

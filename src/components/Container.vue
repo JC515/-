@@ -35,11 +35,11 @@
 <script>
 import Menu from "@/components/SideMenu.vue";
 import WordLearn from "@/components/WordLearn.vue";
-import PersonalCenter from "@/components/PersonalCenter.vue";
 import Saying from "@/components/Saying.vue";
 import WordTable from "@/components/WordTable.vue";
 import bus from "@/Util/EventBus";
 import Quiz from "@/components/Quiz.vue";
+import PersonalCenter from "@/components/PersonalCenter.vue";
 
 export default {
   components: {
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     handleMenuSelect(index) {
-      index = parseInt(index, 10); // or use +index;
+      index = parseInt(index, 10);
       this.index = index;
     },
   },

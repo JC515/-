@@ -7,6 +7,7 @@
             <p class="word">{{ currentWord.word }}</p>
             <p class="pronunciation">{{ currentWord.pronunciation }}</p>
             <p class="definition">{{ currentWord.definition }}</p>
+
             <el-button class="play-button" @click="playAudio" circle>
               <el-icon>
                 <VideoPlay/>
@@ -101,12 +102,12 @@
 
 <script>
 import axios from 'axios';
-import {VideoPlay} from '@element-plus/icons-vue';
+import {VideoPlay, Check} from '@element-plus/icons-vue';
 import bus from "@/Util/EventBus";
 
 
 export default {
-  components: {VideoPlay},
+  components: {VideoPlay, Check},
   props: {
     nowUserId: {
       type: String,
@@ -129,6 +130,7 @@ export default {
       audioType: 1,
       audioPlayer: null,
       index,
+      learnedClicked: false,
     };
   },
   created() {

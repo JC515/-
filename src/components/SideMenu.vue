@@ -49,6 +49,7 @@ export default {
   methods: {
     handleMenuSelect(index) {
       this.$emit('menuSelect', index)
+      this.$emit('indexChange', index)
     },
   },
 }

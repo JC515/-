@@ -5,7 +5,7 @@
       <el-table-column prop="word" label="Word"/>
       <el-table-column prop="pronunciation" label="Pronunciation"/>
       <el-table-column prop="definition" label="Definition"/>
-      <el-table-column prop="isLearned" label="isLearned"/>
+      <!--      <el-table-column prop="isLearned" label="isLearned"/>-->
     </el-table>
     <div class="example-pagination-block">
       <div class="example-demonstration"></div>
@@ -22,12 +22,13 @@
 
 <script>
 import axios from "axios";
+import bus from "@/Util/EventBus";
 
 export default {
   data() {
     return {
       tableData: [],
-      pageSize: 20,
+      pageSize: 16,
       pagerCount: 10,
       currentPage: 1,
     };
@@ -61,8 +62,12 @@ export default {
   mounted() {
     this.fetchWords();
   },
+  created() {
+    bus.on('indexChange', () => {
+      this.fetchWords();
+    })
+  },
 }
-;
 </script>
 
 <style>
